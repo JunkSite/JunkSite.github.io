@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Converter</title>
+
+        <style>
+            html {
+                background-color: #333;
+                font-family: sans-serif;
+            }
+
+            body {
+                color: #ddd;
+                height: 100%;
+                margin: auto;
+                width: 80%
+            }
+
+            div {
+                margin: auto;
+                width: 20em;
+                padding-top: 3em
+            }
+
+            input {
+                font-size: 20px;
+                border: none;
+                border-radius: 0.4em;
+                padding: 0.4em;
+                margin: .5em;
+                width: 100%
+            }
+
+            img {
+                margin: 2em 0;
+                width: 100%;
+                border: 5px solid #599
+            }
+
+            #source {background-color: #aac}
+            #output {background-color: #aca}
+        </style>
+    </head>
+
+    <body>
+        <div><b>
+            Input: <input id = source oninput = input()><br>
+            Shift: <input id = shift oninput = input() type = number><br>
+            Threshold: <input id = threshold oninput = input() type = number><br>
+            Ouput: <input id = output readonly>
+        </b></div>
+        <p></p>
+        Hello!
+        In case you need help in understanding the tool, I have written a small tutorial
+        to explain what each box does:
+        <p></p>
+        <h3><b>Input</b></h3> Put your FRHD export save code in the input box. Once you do this, the
+        <b>Output</b> will also return some text. The <b>output</b> box is the modified result.
+        At the moment, however, the result will be <b>exactly the same</b>.
+        <img src = comp1.png>
+        <p></p>
+        <h3><b>Shift</b></h3> This box tells the tool <b>how far down</b> the track should be
+        duplicated. For example, in my track <i>Fantasy Teleports</i>, I set it to <b>10000</b>.
+        This meant each duplication was 10000 pixels from the other.
+        <img src = comp2.png>
+        <p></p>
+        <h3><b>Threshold</b></h3> This box is going to be the hardest to explain, but I'll try my best.
+        Imagine this: We make a track. We duplicate this track using the tool. The new track is modified (or changed)
+        a little. Now we need to duplicate this new track - but not the original one. The picture may help if you don't understand.
+        <img src = comp3.png>
+        Imagine the <b>threshold</b> as a <b>horizontal bar</b>. Anything <b>underneath</b> the threshold will be duplicated.
+        Anything <b>above</b> the threshold will not.
+        <img src = comp4.png>
+        Anyway, thank you for reading to the end, remember it can't duplicate power-ups or upgrades at the moment,
+        and I hope it will come in handy for your future projects!
+        <p></p>
+
+        <script>
+            function input() {
+                const total = source.value.split("#")
+                const maps = total.slice(0, 2)
+
+                const array = maps.map(string => {
+                    const lines = string.split(",")
+                    const increase = e => (parseInt(e, 32) + Number(shift.value)).toString(32)
+
+                    return lines.map(line => {
+                        const bar = Number(threshold.value)
+                        const copy = line.split(" ").find((e, i) => i % 2 && parseInt(e, 32) > bar)
+                        const duplicate = [line]
+
+                        copy && duplicate.push(line.split(" ").map((e, i) => i % 2 ? increase(e) : e).join(" "))
+                        return duplicate.join(",")
+                    })
+                })
+
+                array.push(...total.slice(2))
+                output.value = array.join("#")
+            }
+        </script>
+    </body>
+</html>
