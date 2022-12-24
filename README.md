@@ -1,2 +1,3 @@
-# JunkSite.github.io
+# JunkSite
+
 A website full of rubbish
