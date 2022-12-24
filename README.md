@@ -1,3 +1,2 @@
 # JunkSite
-
-A website full of rubbish
+https://junksite.github.io
