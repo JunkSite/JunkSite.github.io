@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset = utf-8>
+        <meta name = viewport content = 'width = device-width, initial-scale = 1'>
         <title>Converter</title>
 
         <style>
@@ -16,11 +18,20 @@
                 width: 80%
             }
 
-            div {
+            .whole {
                 margin: auto;
                 width: 20em;
                 padding-top: 3em
             }
+
+            button {
+                font-weight: bold;
+                color: #0b5;
+                background: #000;
+                border: 1px #555 solid
+            }
+
+            button:hover {background: #444}
 
             input {
                 font-size: 20px;
@@ -43,11 +54,11 @@
     </head>
 
     <body>
-        <div><b>
+        <div class = whole><b>
             Input: <input id = source oninput = input()><br>
             Shift: <input id = shift oninput = input() type = number><br>
             Threshold: <input id = threshold oninput = input() type = number><br>
-            Ouput: <input id = output readonly>
+            Ouput: <button id = button onclick = copyCode()>COPY CODE</button><input id = output readonly>
         </b></div>
         <p></p>
         Hello!
@@ -76,6 +87,11 @@
         <p></p>
 
         <script>
+            function copyCode() {
+                navigator.clipboard.writeText(output.value)
+                output.select()
+            }
+
             function input() {
                 const total = source.value.split("#")
                 const maps = total.slice(0, 2)
